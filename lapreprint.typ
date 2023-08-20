@@ -19,8 +19,7 @@
   doi: none,
   heading-numbering: "1.a.i",
   open-access: true,
-
-  // A list of index terms to display after the abstract.
+  // A list of keywords to display after the abstract
   keywords: (),
   margin: (),
   paper-size: "us-letter",
@@ -30,6 +29,7 @@
   date-submitted: none,
   date-accepted: none,
   font-face: "Noto Sans",
+  short-citation: auto,
   // The paper's content.
   body
 ) = {
@@ -48,6 +48,15 @@
     ]
   }
 
+  // Create a short-citation, e.g. Cockett et al., 2023
+  let year = if (date != none) { ", " + date.display("[year]") }
+  if (short-citation == auto and authors.len() == 1) {
+    short-citation = authors.at(0).name.split(" ").last() + year
+  } else if (short-citation == auto and authors.len() == 2) {
+    short-citation = authors.at(0).name.split(" ").last() + " & " + authors.at(1).name.split(" ").last() + year
+  } else if (short-citation == auto and authors.len() > 2) {
+    short-citation = authors.at(0).name.split(" ").last() + " " + emph("et al.") + year
+  }
 
   // Set document metadata.
   set document(title: title, author: authors.map(author => author.name))
@@ -67,7 +76,7 @@
         return align(left, text(size: 8pt, fill: gray, headers.filter(header => header != none).join(spacer)))
       } else {
         return align(right, text(size: 8pt, fill: gray.darken(50%),
-          (short-title,[Cockett _et al._, 2023]).join(spacer)
+          (short-title, short-citation).join(spacer)
         ))
       }
     }),
