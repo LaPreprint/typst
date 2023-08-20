@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img width="297" height="420" src="files/screenshot.png">
+  <img width="75%" src="files/screenshot.png">
 </p>
 <p align="center">
   <b>A template for easily creating pretty, nicely formatted preprints in Typst.</b><br>
