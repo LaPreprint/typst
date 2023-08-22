@@ -38,7 +38,7 @@ With simple options you can enable/disable:
 
 # Quick start
 
-The preprint template uses Typst (not LaTeX!) for typesetting, see [typst docs](https://typst.app/docs)[^latex].
+The preprint template uses Typst (not LaTeX[^latex]) for typesetting, see [typst docs](https://typst.app/docs).
 
 [^latex]: If you are looking for LaPreprint for LaTeX, please see: https://github.com/roaldarbol/LaPreprint
 
