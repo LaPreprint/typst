@@ -38,6 +38,10 @@ With simple options you can enable/disable:
 
 # Quick start
 
+The preprint template uses Typst (not LaTeX!) for typesetting, see [typst docs](https://typst.app/docs)[^latex].
+
+[^latex]: If you are looking for LaPreprint for LaTeX, please see: https://github.com/roaldarbol/LaPreprint
+
 Copy [`lapreprint.typ`](./lapreprint.typ) to your template folder and check out the examples in the [GitHub repository](https://github.com/rowanc1/LaPreprint), for example, [this file](https://github.com/rowanc1/lapreprint/blob/main/examples/pixels/main.typ#L5). You only need the single `lapreprint.typ` file:
 
 ```typst
