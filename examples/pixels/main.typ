@@ -1,4 +1,6 @@
 // Update this import to where you put the `lapreprint.typ` file
+// You should probably use:
+// #import "@preview/lapreprint:0.1.0": template
 #import "../../lapreprint.typ": template
 
 #show: template.with(
