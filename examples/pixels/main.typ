@@ -1,5 +1,5 @@
 // Update this import to where you put the `lapreprint.typ` file
-#import "../lapreprint.typ": template
+#import "../../lapreprint.typ": template
 
 #show: template.with(
   title: "Pixels and their Neighbours",
@@ -7,12 +7,15 @@
   short-title: "Finite Volume Tutorial",
   venue: [ar#text(fill: red.darken(20%))[X]iv],
   // This is relative to the template file
-  logo: "example/files/logo.png",
+  // When importing normally, you should be able to use it relative to this file.
+  logo: "examples/pixels/files/logo.png",
   doi: "10.1190/tle35080703.1",
   // You can make all dates optional, however, `date` is by default `datetime.today()`
-  date: datetime(year: 2023, month: 08, day: 21),
-  date-submitted: datetime(year: 2022, month: 12, day: 10),
-  date-accepted: datetime(year: 2023, month: 01, day: 10),
+  date: (
+    (title: "Published", date: datetime(year: 2023, month: 08, day: 21)),
+    (title: "Accepted", date: datetime(year: 2022, month: 12, day: 10)),
+    (title: "Submitted", date: datetime(year: 2022, month: 12, day: 10)),
+  ),
   theme: red.darken(50%),
   authors: (
     (
@@ -37,8 +40,10 @@
    (id: "1", name: "University of British Columbia"),
    (id: "2", name: "Curvenote Inc."),
   ),
-  abstract: lorem(100),
-  plain-language-summary: lorem(25),
+  abstract: (
+    (title: "Abstract", content: lorem(100)),
+    (title: "Plain Language Summary", content: lorem(25)),
+  ),
   keywords: ("Finite Volume", "Tutorial", "Reproducible Research"),
   open-access: true,
   margin: (

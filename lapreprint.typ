@@ -11,18 +11,14 @@
   affiliations: (),
   // The paper's abstract. Can be omitted if you don't have one.
   abstract: none,
-  // The plain-language-summary is shown underneath the abstract.
-  plain-language-summary: none,
   // The short-title is shown in the running header
   short-title: none,
   // The short-citation is shown in the running header, if set to auto it will show the author(s) and the year in APA format.
   short-citation: auto,
   // The venue is show in the footer
   venue: none,
-  // An image path that is shown in the top right of the page
+  // An image path that is shown in the top right of the page. Can also be content.
   logo: none,
-  // Content that can be put directly below the logo
-  after-logo: none,
   // A DOI link, shown in the header on the first page. Should be just the DOI, e.g. `10.10123/123456` ,not a URL
   doi: none,
   heading-numbering: "1.a.i",
@@ -39,13 +35,13 @@
   // A color for the theme of the document
   theme: blue.darken(30%),
   // Date published, for example, when you publish your preprint to an archive server.
-  // To hide the date, set this to `none`
+  // To hide the date, set this to `none`. You can also supply a list of dicts with `title` and `date`.
   date: datetime.today(),
-  // Other dates that are shown in the
-  date-submitted: none,
-  date-accepted: none,
   // Feel free to change this, the font applies to the whole document
   font-face: "Noto Sans",
+  // The path to a bibliography file if you want to cite some external works.
+  bibliography-file: none,
+  bibliography-style: "apa",
   // The paper's content.
   body
 ) = {
@@ -55,14 +51,15 @@
 
   let spacer = text(fill: gray)[#h(8pt) | #h(8pt)]
 
-  let sideContent(title, body) = {
-    return text(size: 7pt)[
-      #text(fill: theme, weight: "bold")[#title]\
-      #set enum(indent: 0.1em, body-indent: 0.25em)
-      #set list(indent: 0.1em, body-indent: 0.25em)
-      #body
-    ]
+  let dates;
+  if (type(date) == "datetime") {
+    dates = ((title: "Published", date: date),)
+  }else if (type(date) == "dictionary") {
+    dates = (date,)
+  } else {
+    dates = date
   }
+  date = dates.at(0).date
 
   // Create a short-citation, e.g. Cockett et al., 2023
   let year = if (date != none) { ", " + date.display("[year]") }
@@ -174,7 +171,7 @@
   })
 
 
-  if (logo != none or after-logo != none) {
+  if (logo != none) {
     place(
       top,
       dx: -33%,
@@ -182,9 +179,11 @@
       box(
         width: 27%,
         {
-          show link: it => [#text(fill: gray.darken(30%))[#it]]
-          if (logo != none) {image(logo, width: 100%)}
-          after-logo
+          if (type(logo) == "content") {
+            logo
+          } else {
+            image(logo, width: 100%)
+          }
         },
       ),
     )
@@ -233,46 +232,55 @@
         text(11pt, fill: theme, weight: "semibold", smallcaps(kind))
         parbreak()
       }
-      if (date != none) {
-        let submittedText = if (date-submitted != none) {
-            (
-              text(size: 7pt, weight: "light", "Submitted"),
-              text(size: 7pt, weight: "light", date-submitted.display("[month repr:short] [day], [year]"))
-            )
-          } else { none }
-        let acceptedText = if (date-accepted != none) {
-            (
-              text(size: 7pt, weight: "light", "Accepted"),
-              text(size: 7pt, weight: "light", date-accepted.display("[month repr:short] [day], [year]"))
-            )
-          } else { none }
+      if (dates != none) {
+        let formatted-dates
+
         grid(columns: (40%, 60%), gutter: 7pt,
-          text(size: 7pt, fill: theme, weight: "bold", "Published"),
-          text(size: 7pt, date.display("[month repr:short] [day], [year]")),
-          ..submittedText,
-          ..acceptedText,
+          ..dates.zip(range(dates.len())).map((formatted-dates) => {
+            let d = formatted-dates.at(0);
+            let i = formatted-dates.at(1);
+            let weight = "light"
+            if (i == 0) {
+              weight = "bold"
+            }
+            return (
+              text(size: 7pt, fill: theme, weight: weight, d.title),
+              text(size: 7pt, d.date.display("[month repr:short] [day], [year]"))
+            )
+          }).flatten()
         )
       }
       v(2em)
-      grid(columns: 1, gutter: 2em, ..margin.map(side => sideContent(side.title, side.content)))
+      grid(columns: 1, gutter: 2em, ..margin.map(side => {
+        text(size: 7pt, {
+          if ("title" in side) {
+            text(fill: theme, weight: "bold", side.title)
+            [\ ]
+          }
+          set enum(indent: 0.1em, body-indent: 0.25em)
+          set list(indent: 0.1em, body-indent: 0.25em)
+          side.content
+        })
+      }))
     }),
   )
 
 
+  let abstracts
+  if (type(abstract) == "content") {
+    abstracts = (title: "Abstract", content: abstract)
+  } else {
+    abstracts = abstract
+  }
+
   box(inset: (top: 16pt, bottom: 16pt), stroke: (top: 1pt + gray, bottom: 1pt + gray), {
 
-    set par(justify: true)
-
-    text(fill: theme, weight: "semibold", size: 9pt)[Abstract]
-    parbreak()
-    abstract
-
-    if (plain-language-summary != none) {
+    abstracts.map(abs => {
+      set par(justify: true)
+      text(fill: theme, weight: "semibold", size: 9pt, abs.title)
       parbreak()
-      text(fill: theme, weight: "semibold", size: 9pt)[Plain Language Summary]
-      parbreak()
-      plain-language-summary
-    }
+      abs.content
+    }).join(parbreak())
   })
   if (keywords.len() > 0) {
     text(size: 9pt, {
@@ -287,4 +295,9 @@
 
   // Display the paper's contents.
   body
+
+  if (bibliography-file != none) {
+    show bibliography: set text(8pt)
+    bibliography(bibliography-file, title: text(10pt, "References"), style: bibliography-style)
+  }
 }
