@@ -3,33 +3,49 @@
   title: "Paper Title",
   subtitle: none,
 
-  // An array of authors. For each author you can specify a name,
-  // department, organization, location, and email. Everything but
-  // but the name is optional.
+  // An array of authors. For each author you can specify a name, orcid, and affiliations.
+  // affiliations should be content, e.g. "1", which is shown in superscript and should match the affiliations list.
+  // Everything but but the name is optional.
   authors: (),
+  // This is the affiliations list. Include an id and `name` in each affiliation. These are shown below the authors.
   affiliations: (),
-
   // The paper's abstract. Can be omitted if you don't have one.
   abstract: none,
+  // The plain-language-summary is shown underneath the abstract.
   plain-language-summary: none,
+  // The short-title is shown in the running header
   short-title: none,
+  // The short-citation is shown in the running header, if set to auto it will show the author(s) and the year in APA format.
+  short-citation: auto,
+  // The venue is show in the footer
   venue: none,
+  // An image path that is shown in the top right of the page
   logo: none,
+  // Content that can be put directly below the logo
   after-logo: none,
+  // A DOI link, shown in the header on the first page. Should be just the DOI, e.g. `10.10123/123456` ,not a URL
   doi: none,
   heading-numbering: "1.a.i",
+  // Show an Open Access badge on the first page, and support open science, default is true, because that is what the default should be.
   open-access: true,
   // A list of keywords to display after the abstract
   keywords: (),
+  // The "kind" of the content, e.g. "Original Research", this is shown as the title of the margin content on the first page.
+  kind: none,
+  // Content to put on the margin of the first page
+  // Should be a list of dicts with `title` and `content`
   margin: (),
   paper-size: "us-letter",
-  kind: none,
+  // A color for the theme of the document
   theme: blue.darken(30%),
+  // Date published, for example, when you publish your preprint to an archive server.
+  // To hide the date, set this to `none`
   date: datetime.today(),
+  // Other dates that are shown in the
   date-submitted: none,
   date-accepted: none,
+  // Feel free to change this, the font applies to the whole document
   font-face: "Noto Sans",
-  short-citation: auto,
   // The paper's content.
   body
 ) = {

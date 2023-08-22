@@ -1,14 +1,18 @@
-#import "lapreprint.typ": template
+// Update this import to where you put the `lapreprint.typ` file
+#import "../lapreprint.typ": template
 
 #show: template.with(
   title: "Pixels and their Neighbours",
   subtitle: "A Tutorial on Finite Volume",
   short-title: "Finite Volume Tutorial",
   venue: [ar#text(fill: red.darken(20%))[X]iv],
-  logo: "logo.png",
+  // This is relative to the template file
+  logo: "example/files/logo.png",
   doi: "10.1190/tle35080703.1",
+  // You can make all dates optional, however, `date` is by default `datetime.today()`
+  date: datetime(year: 2023, month: 08, day: 21),
   date-submitted: datetime(year: 2022, month: 12, day: 10),
-  date-accepted: datetime(year: 2023, month: 12, day: 10),
+  date-accepted: datetime(year: 2023, month: 01, day: 10),
   theme: red.darken(50%),
   authors: (
     (
@@ -84,6 +88,7 @@ DC resistivity surveys obtain information about subsurface electrical conductivi
   caption: [Setup of a DC resistivity survey.],
 ) <dc-setup>
 
+// You can put this after the content that fits on the first page to set the margins back to full-width
 #set page(margin: auto)
 
 The equations for DC resistivity are derived in (@dc-eqns). Conservation of charge (which can be derived by taking the divergence of Ampere's law at steady state) connects the divergence of the current density everywhere in space to the source term which consists of two point sources, one positive and one negative.
@@ -166,6 +171,8 @@ Associated notebooks are available on #link("https://github.com/simpeg/tle-finit
 All article content, except where otherwise noted (including republished material), is licensed under a Creative Commons Attribution 3.0 Unported License (CC BY-SA). See #link("https://creativecommons.org/licenses/by-sa/3.0/")[https:\/\/creativecommons.org/licenses/by-sa/3.0/]. Distribution or reproduction of this work in whole or in part commercially or noncommercially requires full attribution of the @Cockett_2016, including its digital object identifier (DOI). Derivatives of this work must carry the same license. All rights reserved.
 
 
+// If you are using full-width pages, you must take care of your own bibliography.
+// Otherwise it will be on a separate page
 #{
   show bibliography: set text(8pt)
   bibliography("main.bib", title: text(10pt, "References"), style: "apa")
