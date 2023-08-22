@@ -13,7 +13,7 @@
 </p>
 
 ```typst
-#import "@preview/lapreprint:0.1.0": template
+#import "lapreprint.typ": template
 
 #show: template.with(
   title: "A beautiful preprint template"
@@ -38,10 +38,10 @@ With simple options you can enable/disable:
 
 # Quick start
 
-Import LaPreprint at the latest version (`0.1.0`) and check out the examples in the [GitHub repository](https://github.com/rowanc1/LaPreprint).
+Copy [`lapreprint.typ`](./lapreprint.typ) to your template folder and check out the examples in the [GitHub repository](https://github.com/rowanc1/LaPreprint), for example, [this file](https://github.com/rowanc1/lapreprint/blob/main/examples/pixels/main.typ#L5). You only need the single `lapreprint.typ` file:
 
 ```typst
-#import "@preview/lapreprint:0.1.0": template
+#import "lapreprint.typ": template
 ```
 
 You can then use the template:
@@ -49,15 +49,29 @@ You can then use the template:
 ```typst
 #show: template.with(
   title: "A beautiful preprint template"
-  // ... all sorts of other options
+  // ... all sorts of other options that are explained below!
 )
 ```
 
-The overall theme is based on a color, the default is blue, however, the following examples use:
+## Logos and Branding
+
+The theme of the document can be set to a specific color, which changes the headers and links. The default `theme` is blue, however, the following examples use:
 
 ```typst
 theme: red.darken(50%),
 ```
+
+You can also supply a logo, which is either an image file location or content, allowing you to add additional information about the journal or lab-group to the top-right of the document. You can also set the `paper-size`, `heading-numbering` and `font-face`. The default font-face used is Noto Sans, which you may need to [download](https://fonts.google.com/noto/specimen/Noto+Sans).
+
+```typst
+logo: "my-logo.png",
+theme: purple.darken(20%),
+paper-size: "us-letter",
+heading-numbering: "1.a.i",
+font-face: "Noto Sans",
+```
+
+![image](https://github.com/rowanc1/LaPreprint/assets/913249/ea6ce83b-8694-4636-8317-e49b3231352f)
 
 ## Title and Subtitle
 
@@ -167,20 +181,6 @@ If you opt for resetting to a full-width margin, you will want to not supply a `
 
 [^margin]: If you know a better way of doing this to automate it in the template, please open an issue or pull-request!!
 [^bug]: This seems like a bug to me in typst, but maybe is by design?
-
-## Logos and Branding
-
-The theme of the document can be set to a specific color, which changes the headers and links. You can also supply a logo, which is either an image file location or content, allowing you to add additional information about the journal or lab-group to the top-right of the document. You can also set the `paper-size`, `heading-numbering` and `font-face`. The default font-face used is Noto Sans, which you may need to [download](https://fonts.google.com/noto/specimen/Noto+Sans).
-
-```typst
-logo: "my-logo.png",
-theme: purple.darken(20%),
-paper-size: "us-letter",
-heading-numbering: "1.a.i",
-font-face: "Noto Sans",
-```
-
-![image](https://github.com/rowanc1/LaPreprint/assets/913249/ea6ce83b-8694-4636-8317-e49b3231352f)
 
 ## Headers and Footers
 
