@@ -1,4 +1,4 @@
-#import "lapreprint.typ": *
+#import "lapreprint.typ": template
 
 #show: template.with(
   title: "Pixels and their Neighbours",
