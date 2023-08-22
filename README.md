@@ -42,13 +42,13 @@ The preprint template uses Typst (not LaTeX!) for typesetting, see [typst docs](
 
 [^latex]: If you are looking for LaPreprint for LaTeX, please see: https://github.com/roaldarbol/LaPreprint
 
-Copy [`lapreprint.typ`](./lapreprint.typ) to your template folder and check out the examples in the [GitHub repository](https://github.com/rowanc1/LaPreprint), for example, [this file](https://github.com/rowanc1/lapreprint/blob/main/examples/pixels/main.typ#L5). You only need the single `lapreprint.typ` file:
+Copy [`lapreprint.typ`](./lapreprint.typ) to your own folder that you are working in, you only need the single `lapreprint.typ` file:
 
 ```typst
 #import "lapreprint.typ": template
 ```
 
-You can then use the template:
+Take a look at the examples in the [GitHub repository](https://github.com/rowanc1/LaPreprint), for example, [this file](https://github.com/rowanc1/lapreprint/blob/main/examples/pixels/main.typ#L5), the basics are to use the template with a `#show` command:
 
 ```typst
 #show: template.with(
