@@ -1,6 +1,7 @@
 // Update this import to where you put the `lapreprint.typ` file
 // It should probably be in the same folder
 #import "../../lapreprint.typ": template
+#import "../../frontmatter.typ": loadFrontmatter
 
 #show: template.with(
   title: "Pixels and their Neighbours",
@@ -84,13 +85,20 @@
   ),
 )
 
+
+#{
+  let front = loadFrontmatter(yaml("myst.yml"))
+  [#front]
+}
+
+
 = DC Resistivity <dc-resistivity>
 
 DC resistivity surveys obtain information about subsurface electrical conductivity, $sigma$. This physical property is often diagnostic in mineral exploration, geotechnical, environmental and hydrogeologic problems, where the target of interest has a significant electrical conductivity contrast from the background. In a DC resistivity survey, steady state currents are set up in the subsurface by injecting current through a positive electrode and completing the circuit with a return electrode (@dc-setup).
 
 
 #figure(
-  image("files/dc-setup.png", width: 60%),
+  image("files/dc-setup.png", width: 50%),
   caption: [Setup of a DC resistivity survey.],
 ) <dc-setup>
 

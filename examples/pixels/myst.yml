@@ -1,0 +1,21 @@
+title: Hello *World*
+shortTitle: cool
+author:
+  - name: Rowan Cockett
+    orcid: 0000-0000-0000-0000
+    affiliations:
+      - ubc
+      - curvenote
+  - name: Lindsey Heagy
+    orcid: 0000-0000-0000-0000
+    affiliation: ubc
+  - name: Doug
+    orcid: 0000-0000-0000-0000
+    affiliation: ubc
+affiliations:
+  - id: ubc
+    institution: University of British Columbia
+  - id: curvenote
+    institution: Curvenote Inc.
+open_access: true
+doi: 10.1190/tle35080703.1
