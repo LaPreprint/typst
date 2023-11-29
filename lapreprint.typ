@@ -198,7 +198,6 @@
   }
   // Authors and affiliations
   if authors.len() > 0 {
-    parbreak()
     box(inset: (y: 10pt), {
       authors.map(author => {
         text(11pt, weight: "semibold", author.name)
@@ -213,7 +212,6 @@
     })
   }
   if affiliations.len() > 0 {
-    parbreak()
     box(inset: (bottom: 10pt), {
       affiliations.map(affiliation => {
         super(affiliation.id)
@@ -284,10 +282,8 @@
       abs.content
     }).join(parbreak())
   })
-  if (abstracts.len() == 1) {
-    parbreak()
-  }
   if (keywords.len() > 0) {
+    parbreak()
     text(size: 9pt, {
       text(fill: theme, weight: "semibold", "Keywords")
       h(8pt)
