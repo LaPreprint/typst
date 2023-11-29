@@ -283,6 +283,7 @@
     }).join(parbreak())
   })
   if (keywords.len() > 0) {
+    parbreak()
     text(size: 9pt, {
       text(fill: theme, weight: "semibold", "Keywords")
       h(8pt)
