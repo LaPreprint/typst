@@ -52,7 +52,7 @@
   let dates;
   if (type(date) == "datetime") {
     dates = ((title: "Published", date: date),)
-  }else if (type(date) == "dictionary") {
+  } else if (type(date) == "dictionary") {
     dates = (date,)
   } else {
     dates = date
@@ -266,7 +266,7 @@
 
   let abstracts
   if (type(abstract) == "content") {
-    abstracts = (title: "Abstract", content: abstract)
+    abstracts = ((title: "Abstract", content: abstract),)
   } else {
     abstracts = abstract
   }
