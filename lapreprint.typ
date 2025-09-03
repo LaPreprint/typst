@@ -142,7 +142,7 @@
       #show: smallcaps
       #v(20pt, weak: true)
       #if it.numbering != none and not is-ack {
-        numbering(heading-numbering, ..levels)
+        numbering(heading.numbering, ..levels)
         [.]
         h(7pt, weak: true)
       }
@@ -154,7 +154,7 @@
       #set text(style: "italic")
       #v(10pt, weak: true)
       #if it.numbering != none {
-        numbering(heading-numbering, ..levels)
+        numbering(heading.numbering, ..levels)
         [.]
         h(7pt, weak: true)
       }
@@ -163,7 +163,7 @@
     ] else [
       // Third level headings are run-ins too, but different.
       #if it.level == 3 {
-        numbering(heading-numbering, ..levels)
+        numbering(heading.numbering, ..levels)
         [. ]
       }
       _#(it.body):_
