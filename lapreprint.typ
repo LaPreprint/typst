@@ -52,9 +52,9 @@
   let spacer = text(fill: gray)[#h(8pt) | #h(8pt)]
 
   let dates;
-  if (type(date) == "datetime") {
+  if (type(date) == datetime) {
     dates = ((title: "Published", date: date),)
-  }else if (type(date) == "dictionary") {
+  }else if (type(date) == dictionary) {
     dates = (date,)
   } else {
     dates = date
@@ -63,7 +63,9 @@
 
   // Create a short-citation, e.g. Cockett et al., 2023
   let year = if (date != none) { ", " + date.display("[year]") }
-  if (short-citation == auto and authors.len() == 1) {
+  if (short-citation == auto and authors.len() == 0) {
+    short-citation = year
+  } else if (short-citation == auto and authors.len() == 1) {
     short-citation = authors.at(0).name.split(" ").last() + year
   } else if (short-citation == auto and authors.len() == 2) {
     short-citation = authors.at(0).name.split(" ").last() + " & " + authors.at(1).name.split(" ").last() + year
@@ -80,8 +82,8 @@
   set page(
     paper-size,
     margin: (left: 25%),
-    header: locate(loc => {
-      if(loc.page() == 1) {
+    header: context {
+      if(counter(page).get().first() == 1) {
         let headers = (
           if (open-access) {smallcaps[Open Access]},
           if (doi != none) { link("https://doi.org/" + doi, "https://doi.org/" + doi)}
@@ -92,29 +94,31 @@
           (short-title, short-citation).join(spacer)
         ))
       }
-    }),
-    footer: block(
-      width: 100%,
-      stroke: (top: 1pt + gray),
-      inset: (top: 8pt, right: 2pt),
-      [
-        #grid(columns: (75%, 25%),
-          align(left, text(size: 9pt, fill: gray.darken(50%),
-              (
-                if(venue != none) {emph(venue)},
-                if(date != none) {date.display("[month repr:long] [day], [year]")}
-              ).filter(t => t != none).join(spacer)
-          )),
-          align(right)[
-            #text(
-              size: 9pt, fill: gray.darken(50%)
-            )[
-              #counter(page).display() of #locate((loc) => {counter(page).final(loc).first()})
+    },
+    footer: context {
+      block(
+        width: 100%,
+        stroke: (top: 1pt + gray),
+        inset: (top: 8pt, right: 2pt),
+        [
+          #grid(columns: (75%, 25%),
+            align(left, text(size: 9pt, fill: gray.darken(50%),
+                (
+                  if(venue != none) {emph(venue)},
+                  if(date != none) {date.display("[month repr:long] [day], [year]")}
+                ).filter(t => t != none).join(spacer)
+            )),
+            align(right)[
+              #text(
+                size: 9pt, fill: gray.darken(50%)
+              )[
+                #counter(page).display() of #counter(page).get().last()
+              ]
             ]
-          ]
-        )
-      ]
-    )
+          )
+        ]
+      )
+    }
   )
 
   // Set the body font.
@@ -129,9 +133,9 @@
 
   // Configure headings.
   set heading(numbering: heading-numbering)
-  show heading: it => locate(loc => {
+  show heading: it => context {
     // Find out the final number of the heading counter.
-    let levels = counter(heading).at(loc)
+    let levels = counter(heading).get()
     set text(10pt, weight: 400)
     if it.level == 1 [
       // First-level headings are centered smallcaps.
@@ -168,7 +172,7 @@
       }
       _#(it.body):_
     ]
-  })
+  }
 
 
   if (logo != none) {
@@ -198,7 +202,7 @@
   }
   // Authors and affiliations
   if authors.len() > 0 {
-    box(inset: (y: 10pt), {
+    box(width: 100%, inset: (y: 10pt), {
       authors.map(author => {
         text(11pt, weight: "semibold", author.name)
         h(1pt)
@@ -267,21 +271,23 @@
 
 
   let abstracts
-  if (type(abstract) == "content") {
+  if (type(abstract) == content) {
     abstracts = (title: "Abstract", content: abstract)
   } else {
     abstracts = abstract
   }
 
-  box(inset: (top: 16pt, bottom: 16pt), stroke: (top: 1pt + gray, bottom: 1pt + gray), {
+  if (abstract != none) {
+    box(inset: (top: 16pt, bottom: 16pt), stroke: (top: 1pt + gray, bottom: 1pt + gray), {
 
-    abstracts.map(abs => {
-      set par(justify: true)
-      text(fill: theme, weight: "semibold", size: 9pt, abs.title)
-      parbreak()
-      abs.content
-    }).join(parbreak())
-  })
+      abstracts.map(abs => {
+        set par(justify: true)
+        text(fill: theme, weight: "semibold", size: 9pt, abs.title)
+        parbreak()
+        abs.content
+      }).join(parbreak())
+    })
+  }
   if (keywords.len() > 0) {
     parbreak()
     text(size: 9pt, {
@@ -292,7 +298,7 @@
   }
   v(10pt)
 
-  show par: set block(spacing: 1.5em)
+  set par(spacing: 1.5em)
 
   // Display the paper's contents.
   body
